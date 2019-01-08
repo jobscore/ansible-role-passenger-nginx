@@ -7,3 +7,21 @@
         name: ruby-full
   roles:
     - role: ansible-role-passenger-nginx
+      nginx_user: www-data www-data
+      passenger_extra_params:
+        passenger_max_pool_size: 6
+        passenger_min_instances: 6
+        passenger_pre_start: http://www.example.com
+      nginx_extra_config: |
+        worker_rlimit_nofile 8192;
+      nginx_events_extra_config: |
+        multi_accept on;
+      nginx_http_extra_config: |
+        # Hide nginx version information.
+        server_tokens off;
+        server_names_hash_bucket_size 128;
+        proxy_hide_header X-Powered-By;
+        # Format to use in log files
+        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                          '$status $body_bytes_sent "$http_referer" '
+                          '"$http_user_agent" "$http_x_forwarded_for" "$sent_http_location"';

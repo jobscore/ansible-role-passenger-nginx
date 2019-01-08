@@ -1,0 +1,6 @@
+passenger_root {{ passenger_root }};
+passenger_ruby {{ passenger_ruby }};
+
+{% for k, v in passenger_extra_params.items() %}
+{{ k }} {{ v }};
+{% endfor %}
