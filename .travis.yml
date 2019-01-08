@@ -1,0 +1,11 @@
+---
+language: python
+services: docker
+install:
+  - pip install pipenv
+  - pipenv install --dev --system
+script:
+  - travis_wait 30 pipenv run molecule test
+notifications:
+  email: false
+  webhooks: https://galaxy.ansible.com/api/v1/notifications/

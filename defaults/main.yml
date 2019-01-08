@@ -7,11 +7,15 @@ passenger_app_env: production
 
 passenger_root: /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
 passenger_ruby: /usr/local/bin/ruby
+passenger_extra_params:
+  passenger_show_version_in_header: 'off'
+
 
 nginx_user: "www-data"
 nginx_worker_processes: "auto"
 nginx_worker_connections: "768"
 nginx_keepalive_timeout: "65"
-nginx_extra_configs: ''
-nginx_http_extra_configs: ''
-nginx_vhost_extra_configs: ''
+nginx_extra_config: ''
+nginx_events_extra_config: ''
+nginx_http_extra_config: ''
+nginx_vhost_extra_config: ''
