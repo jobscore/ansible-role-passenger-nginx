@@ -1,0 +1,9 @@
+---
+- name: Converge
+  hosts: all
+  pre_tasks:
+    - name: Ensure ruby is present
+      apt:
+        name: ruby-full
+  roles:
+    - role: ansible-role-passenger-nginx

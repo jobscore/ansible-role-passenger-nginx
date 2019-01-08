@@ -1,0 +1,18 @@
+---
+galaxy_info:
+  author: Eric Magalhães
+  description: Ansible Role for installing Passenger and NGINX for Ruby apps
+  company: JobScore Inc
+  license: license (MIT)
+
+  min_ansible_version: 1.2
+  platforms:
+    - name: Ubuntu
+      versions:
+        - bionic
+        - xenial
+  galaxy_tags:
+    - ruby
+    - passenger
+    - nginx
+dependencies: []

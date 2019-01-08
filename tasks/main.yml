@@ -1,0 +1,60 @@
+---
+# tasks file for ansible-role-passenger-nginx
+
+- name: Ensure needed APT packages are present
+  apt:
+    name:
+      - apt-transport-https
+      - dirmngr
+      - gnupg
+      - ca-certificates
+    state: present
+
+- name: Ensure Passenger APT key is present
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 561F9B9CAC40B2F7
+    state: present
+
+- name: Ensure Passenger APT repo is present
+  apt_repository:
+    repo: >
+      deb https://oss-binaries.phusionpassenger.com/apt/passenger
+      {{ ansible_distribution_release }} main
+    state: present
+    update_cache: true
+
+- name: Ensure Nginx and Passenger are present (Older than Bionic)
+  apt:
+    name:
+      - nginx-extras
+      - passenger
+    state: present
+  when: ansible_distribution_release != 'bionic'
+
+- name: Ensure Nginx and Passenger are present (Bionic)
+  apt:
+    name:
+      - nginx
+      - libnginx-mod-http-passenger
+    state: present
+  when: ansible_distribution_release == 'bionic'
+
+- name: Ensure passenger module is enabled
+  file:
+    src: /usr/share/nginx/modules-available/mod-http-passenger.load
+    dest: /etc/nginx/modules-enabled/50-mod-http-passenger.conf
+    state: link
+  when: ansible_distribution_release == 'bionic'
+
+- name: Ensure NGINX config file is updated
+  template:
+    src: nginx.conf.j2
+    dest: /etc/nginx/nginx.conf
+  notify: restart nginx
+
+- name: Configure the NGINX virtual host
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-enabled/default
+  notify: restart nginx

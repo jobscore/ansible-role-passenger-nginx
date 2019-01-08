@@ -1,0 +1,17 @@
+---
+# defaults file for ansible-role-passenger-nginx
+
+passenger_server_name: www.example.com
+passenger_app_root: /tmp/public
+passenger_app_env: production
+
+passenger_root: /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
+passenger_ruby: /usr/local/bin/ruby
+
+nginx_user: "www-data"
+nginx_worker_processes: "auto"
+nginx_worker_connections: "768"
+nginx_keepalive_timeout: "65"
+nginx_extra_configs: ''
+nginx_http_extra_configs: ''
+nginx_vhost_extra_configs: ''
