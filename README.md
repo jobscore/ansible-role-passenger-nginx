@@ -1,48 +1,122 @@
-Role Name
-=========
+# Passenger NGINX
 
-A brief description of the role goes here.
+[![Build Status](https://travis-ci.org/jobscore/ansible-role-passenger-nginx.svg?branch=master)](https://travis-ci.org/jobscore/ansible-role-passenger-nginx)
 
-Requirements
-------------
+Ansible Role for installing Passenger and NGINX for Ruby apps
 
-Any pre-requisites that may not be covered by Ansible itself or the role should
-be mentioned here. For instance, if the role uses the EC2 module, it may be a
-good idea to mention in this section that the boto package is required.
+## Requirements
 
-Role Variables
---------------
+This role expects Ruby to be already installed on the target machine, the path for the ruby binary can be configured using the `passenger_ruby` variable
 
-A description of the settable variables for this role should go here, including
-any variables that are in defaults/main.yml, vars/main.yml, and any variables
-that can/should be set via parameters to the role. Any variables that are read
-from other roles and/or the global scope (ie. hostvars, group vars, etc.) should
-be mentioned here as well.
+## Role Variables
 
-Dependencies
-------------
+### Passenger configuration
 
-A list of other roles hosted on Galaxy should go here, plus any details in
-regards to parameters that may need to be set for other roles, or variables that
-are used from other roles.
+```
+passenger_app_root: /mnt/app/public
+```
 
-Example Playbook
-----------------
+The path of the public folder of your Rails app
 
-Including an example of how to use your role (for instance, with variables
-passed in as parameters) is always nice for users too:
+```
+passenger_app_env: production
+```
 
-    - hosts: servers
-      roles:
-         - { role: ansible-role-passenger-nginx, x: 42 }
+The RAILS_ENV on which Passenger will run your Rails app
 
-License
--------
+```
+passenger_root: /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
+```
+The path for your passenger config root file, this file is not managed by this role, therefore you should only change this in case you have manually configured a passenger setup elsewhere
 
-BSD
+```
+passenger_ruby: /usr/local/bin/ruby
+```
+
+The path for you Ruby binary
+
+```
+passenger_extra_config: ''
+```
+
+On this variable you can set additional passenger configurations for your apps, more info can be found [here](https://www.phusionpassenger.com/library/config/nginx/reference/)
+
+### NGINX configuration
+
+```
+nginx_server_name: www.example.com
+```
+
+The server name that NGINX will use to listen for HTTP requests
+
+```
+nginx_user: "www-data"
+```
+
+The user that NGINX will use to run the server
+
+```
+nginx_extra_config: ''
+```
+
+Additional config params that you might want to add to the [nginx.conf](/templates/nginx.conf.j2) template on the root level.
+
+```
+nginx_events_extra_config: ''
+```
+Additional config params that you might want to add to the [nginx.conf](/templates/nginx.conf.j2) template under the **events** section.
+
+```
+nginx_http_extra_config: ''
+```
+Additional config params that you might want to add to the [nginx.conf](/templates/nginx.conf.j2) template under the **http** section.
+
+```
+nginx_vhost_extra_config: ''
+```
+Additional config params that you might want to add to the [default](/templates/default.j2) NGINX site template.
+
+```
+nginx_worker_processes: "auto"
+nginx_worker_connections: "768"
+nginx_keepalive_timeout: "65"
+```
+
+Those values are used to configure their respective values in the [nginx.conf](/templates/nginx.conf.j2) template.
+
+## Example Playbooks
+
+``` yaml
+- hosts: servers
+  roles:
+    - role: jobscore.ruby
+    - role: jobscore.passenger_nginx
+
+
+```
+
+``` yaml
+- hosts: servers
+  pre_tasks:
+    - apt:
+      name: ruby-full
+      state: present
+  roles:
+    - role: jobscore.passenger_nginx
+      nginx_server_name: www.example.com
+      passenger_extra_config: |
+        passenger_max_pool_size 6;
+        passenger_min_instances 6;
+        passenger_pre_start {{ nginx_server_name }};
+
+```
+
+## License
+
+
+[MIT](/LICENSE)
 
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a
-website (HTML is not allowed).
+This role was created by [Eric Magalhães](https://emagalha.es) while working for [JobScore Inc](https://jobscore.com).
