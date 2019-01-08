@@ -76,6 +76,14 @@ nginx_vhost_extra_config: ''
 ```
 Additional config params that you might want to add to the [default](/templates/default.j2) NGINX site template.
 
+```
+nginx_worker_processes: "auto"
+nginx_worker_connections: "768"
+nginx_keepalive_timeout: "65"
+```
+
+Those values are used to configure their respective values in the [nginx.conf](/templates/nginx.conf.j2) template.
+
 ## Example Playbooks
 
 ``` yaml
