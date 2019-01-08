@@ -6,12 +6,13 @@ pid /run/nginx.pid;
 include /etc/nginx/modules-enabled/*.conf;
 {% endif %}
 
+{{ nginx_extra_config }}
+
 events {
 	worker_connections {{ nginx_worker_connections }};
+  {{ nginx_events_extra_config }}
 	# multi_accept on;
 }
-
-{{ nginx_extra_configs }}
 
 http {
 
@@ -51,8 +52,7 @@ http {
 	##
 
   {% if ansible_distribution_release != 'bionic' %}
-  passenger_root {{ passenger_root }};
-  passenger_ruby {{ passenger_ruby }};
+  {% include 'mod-http-passenger.conf.j2' %}
   {% endif %}
 
 	gzip on;
@@ -72,5 +72,5 @@ http {
 	include /etc/nginx/conf.d/*.conf;
 	include /etc/nginx/sites-enabled/*;
 
-  {{ nginx_http_extra_configs }}
+  {{ nginx_http_extra_config }}
 }
