@@ -8,10 +8,11 @@
   roles:
     - role: ansible-role-passenger-nginx
       nginx_user: www-data www-data
-      passenger_extra_params:
-        passenger_max_pool_size: 6
-        passenger_min_instances: 6
-        passenger_pre_start: http://www.example.com
+      nginx_server_name: www.example.com
+      passenger_extra_config: |
+        passenger_max_pool_size 6;
+        passenger_min_instances 6;
+        passenger_pre_start {{ nginx_server_name }};
       nginx_extra_config: |
         worker_rlimit_nofile 8192;
       nginx_events_extra_config: |
