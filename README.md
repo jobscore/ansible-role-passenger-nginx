@@ -39,7 +39,7 @@ The path for you Ruby binary
 passenger_extra_config: ''
 ```
 
-On this variable you can set additional passenger configurations for your apps, more info can be found [here](https://www.phusionpassenger.com/library/config/nginx/reference/)
+On this variable you can add/customize the passenger behavior for your apps(used on [mod-http-passenger.conf.j2](/templates/mod-http-passenger.conf.j2)), more info about passenger parameters for NGINX can be found [here](https://www.phusionpassenger.com/library/config/nginx/reference/).
 
 ### NGINX configuration
 
@@ -72,9 +72,16 @@ nginx_http_extra_config: ''
 Additional config params that you might want to add to the [nginx.conf](/templates/nginx.conf.j2) template under the **http** section.
 
 ```
-nginx_vhost_extra_config: ''
+nginx_vhost_config: |
+  server {
+    listen 80 default_server;
+    server_name {{ nginx_server_name }};
+    passenger_enabled on;
+    passenger_app_env {{ passenger_app_env }};
+    root {{ passenger_app_root }};
+  }
 ```
-Additional config params that you might want to add to the [default](/templates/default.j2) NGINX site template.
+NGINX configuration for the passenger app, the default configuration works for all apps, if you want to add/customize behavior you can edit this variable. You can use variables here as you were using a Jinja template.
 
 ```
 nginx_worker_processes: "auto"
