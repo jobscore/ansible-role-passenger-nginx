@@ -2,6 +2,7 @@ extends: default
 
 ignore: |
   molecule/
+  .travis.yml
 
 
 rules:

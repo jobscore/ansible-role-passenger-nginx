@@ -61,7 +61,7 @@
   notify: restart nginx
 
 - name: Configure the NGINX virtual host
-  template:
-    src: default.j2
+  copy:
     dest: /etc/nginx/sites-enabled/default
+    content: "{{ nginx_vhost_config }}"
   notify: restart nginx

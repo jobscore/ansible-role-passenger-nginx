@@ -22,7 +22,18 @@
         server_tokens off;
         server_names_hash_bucket_size 128;
         proxy_hide_header X-Powered-By;
-        # Format to use in log files
-        log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
-                          '$status $body_bytes_sent "$http_referer" '
-                          '"$http_user_agent" "$http_x_forwarded_for" "$sent_http_location"';
+      nginx_vhost_config: |
+        server {
+          listen 80 default_server;
+          server_name {{ nginx_server_name }};
+          root {{ passenger_app_root }};
+
+          location @rubyapp {
+            passenger_enabled on;
+            passenger_app_env {{ passenger_app_env }};
+          }
+
+          location / {
+            try_files $uri $uri/index.html @rubyapp;
+          }
+        }
