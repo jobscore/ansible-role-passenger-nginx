@@ -24,34 +24,29 @@
     state: present
     update_cache: true
 
-- name: Ensure Nginx and Passenger are present (other than bionic)
+- name: Ensure Nginx and Passenger are present
   apt:
     name:
       - nginx-extras
-      - passenger
-    state: present
-  when: ansible_distribution_release != 'bionic'
-
-- name: Ensure Nginx and Passenger are present (bionic)
-  apt:
-    name:
-      - nginx
       - libnginx-mod-http-passenger
     state: present
-  when: ansible_distribution_release == 'bionic'
 
-- name: Ensure passenger module is enabled for bionic
+- name: Ensure passenger module is enabled
   file:
     src: /usr/share/nginx/modules-available/mod-http-passenger.load
     dest: /etc/nginx/modules-enabled/50-mod-http-passenger.conf
     state: link
-  when: ansible_distribution_release == 'bionic'
 
-- name: Ensure passenger config file is updated for bionic
+- name: Ensure headers_more module is enabled
+  file:
+    src: /usr/share/nginx/modules-available/mod-http-headers-more-filter.conf
+    dest: /etc/nginx/modules-enabled/50-mod-http-headers-more-filter.conf
+    state: link
+
+- name: Ensure passenger config file is updated
   template:
     src: mod-http-passenger.conf.j2
     dest: /etc/nginx/conf.d/mod-http-passenger.conf
-  when: ansible_distribution_release == 'bionic'
   notify: restart nginx
 
 - name: Ensure NGINX config file is updated
