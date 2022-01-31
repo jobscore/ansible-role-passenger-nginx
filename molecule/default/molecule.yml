@@ -3,11 +3,14 @@ dependency:
   name: galaxy
 driver:
   name: docker
-lint:
-  name: yamllint
+lint: |
+  set -e
+  yamllint .
 platforms:
   - name: bionic
     image: ubuntu:bionic
+  - name: focal
+    image: ubuntu:focal
 provisioner:
   name: ansible
   lint:

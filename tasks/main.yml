@@ -24,11 +24,12 @@
     state: present
     update_cache: true
 
-- name: Ensure Nginx and Passenger are present
+- name: Ensure Nginx and Passenger are present (Bionic +)
   apt:
     name:
-      - nginx-extras
+      - nginx
       - libnginx-mod-http-passenger
+      - libnginx-mod-http-headers-more-filter
     state: present
 
 - name: Ensure passenger module is enabled

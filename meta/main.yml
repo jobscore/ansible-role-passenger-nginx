@@ -11,7 +11,7 @@ galaxy_info:
     - name: Ubuntu
       versions:
         - bionic
-        - xenial
+        - focal
   galaxy_tags:
     - ruby
     - passenger
