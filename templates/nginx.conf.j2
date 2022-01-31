@@ -3,9 +3,7 @@ user {{ nginx_user }};
 worker_processes {{ nginx_worker_processes }};
 pid /run/nginx.pid;
 
-{% if ansible_distribution_release == 'bionic' %}
 include /etc/nginx/modules-enabled/*.conf;
-{% endif %}
 
 {{ nginx_extra_config }}
 
@@ -38,7 +36,7 @@ http {
 	# SSL Settings
 	##
 
-	ssl_protocols TLSv1 TLSv1.1 TLSv1.2; # Dropping SSLv3, ref: POODLE
+	ssl_protocols TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
 	ssl_prefer_server_ciphers on;
 
 	##
@@ -51,10 +49,6 @@ http {
 	##
 	# Gzip Settings
 	##
-
-  {% if ansible_distribution_release != 'bionic' %}
-  {% include 'mod-http-passenger.conf.j2' %}
-  {% endif %}
 
 	gzip on;
   gzip_disable "msie6";
