@@ -1,7 +1,5 @@
 # Passenger NGINX
 
-[![Build Status](https://travis-ci.org/jobscore/ansible-role-passenger-nginx.svg?branch=master)](https://travis-ci.org/jobscore/ansible-role-passenger-nginx)
-
 Ansible Role for installing Passenger and NGINX for Ruby apps
 
 ## Requirements
@@ -98,8 +96,6 @@ Those values are used to configure their respective values in the [nginx.conf](/
   roles:
     - role: jobscore.ruby
     - role: jobscore.passenger_nginx
-
-
 ```
 
 ``` yaml
@@ -115,15 +111,13 @@ Those values are used to configure their respective values in the [nginx.conf](/
         passenger_max_pool_size 6;
         passenger_min_instances 6;
         passenger_pre_start {{ nginx_server_name }};
-
 ```
 
 ## License
-
 
 [MIT](/LICENSE)
 
 Author Information
 ------------------
 
-This role was created by [Eric Magalhães](https://emagalha.es) while working for [JobScore Inc](https://jobscore.com).
+This role was created by [Eric Magalhães](https://emagalha.es) and [Glauber Batista](https://glauberrbatista.dev) while working for [JobScore Inc](https://jobscore.com).
