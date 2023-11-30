@@ -5,6 +5,7 @@
     - name: Ensure ruby is present
       apt:
         name: ruby-full
+        update_cache: true
   roles:
     - role: ansible-role-passenger-nginx
       nginx_user: www-data www-data
