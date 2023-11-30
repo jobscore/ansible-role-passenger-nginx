@@ -1,0 +1,40 @@
+---
+- hosts: all
+  roles:
+    - role: ansible-role-passenger-nginx
+      nginx_server_name: www.example.com
+      nginx_vhost_config: |
+        server {
+          listen 80 default_server;
+          server_name {{ nginx_server_name }};
+          root {{ passenger_app_root }};
+
+          location @rubyapp {
+            passenger_enabled on;
+            passenger_app_env {{ passenger_app_env }};
+          }
+
+          location / {
+            try_files $uri $uri/index.html @rubyapp;
+          }
+        }
+  post_tasks:
+    - name: Check for nginx conf file
+      stat:
+        path: /etc/nginx/nginx.conf
+      register: nginx_conf_check
+
+    - name: Ensure nginx conf exists
+      fail:
+        msg: "The nginx conf file does not exist"
+      when: nginx_conf_check.stat.exists == False
+
+    - name: Check for passenger conf file
+      stat:
+        path: /etc/nginx/conf.d/mod-http-passenger.conf
+      register: passenger_conf_check
+
+    - name: Ensure passenger conf exists
+      fail:
+        msg: "The passenger conf file does not exist"
+      when: passenger_conf_check.stat.exists == False
