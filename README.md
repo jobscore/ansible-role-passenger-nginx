@@ -1,6 +1,6 @@
 # Passenger NGINX
 
-[![CI](https://github.com/jobscore/ansible-role-passenger-nginx/actions/workflows/ci.yml/badge.svg)](https://github.com/jobscore/ansible-role-passenger-nginx/actions/workflows/ci.yml)
+[![CI](https://github.com/jobscore/ansible-role-passenger-nginx/actions/workflows/ci.yml/badge.svg?branch=master)](https://github.com/jobscore/ansible-role-passenger-nginx/actions/workflows/ci.yml)
 
 Ansible Role for installing Passenger and NGINX for Ruby apps
 
