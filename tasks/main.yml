@@ -5,26 +5,29 @@
   apt:
     name:
       - apt-transport-https
+      - ca-certificates
+      - curl
       - dirmngr
       - gnupg
-      - ca-certificates
+      - gnupg2
+      - lsb-release
+      - ubuntu-keyring
     state: present
 
 - name: Ensure Passenger APT key is present
-  apt_key:
-    keyserver: keyserver.ubuntu.com
-    id: 561F9B9CAC40B2F7
-    state: present
+  shell:
+    cmd: curl https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key.txt | gpg --dearmor | tee /usr/share/keyrings/phusion-passenger.gpg >/dev/null
+  changed_when: false
 
-- name: Ensure Passenger APT repo is present
+- name: Ensure Passenger APT repo is configured
   apt_repository:
     repo: >
-      deb https://oss-binaries.phusionpassenger.com/apt/passenger
+      deb [signed-by=/usr/share/keyrings/phusion-passenger.gpg] https://oss-binaries.phusionpassenger.com/apt/passenger
       {{ ansible_distribution_release }} main
     state: present
     update_cache: true
 
-- name: Ensure Nginx and Passenger are present (Bionic +)
+- name: Ensure Nginx and Passenger are present
   apt:
     name:
       - nginx
