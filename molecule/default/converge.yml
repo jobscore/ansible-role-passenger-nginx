@@ -7,7 +7,7 @@
         name: ruby-full
         update_cache: true
   roles:
-    - role: ansible-role-passenger-nginx
+    - role: jobscore.passenger_nginx
       nginx_user: www-data www-data
       nginx_server_name: www.example.com
       passenger_extra_config: |

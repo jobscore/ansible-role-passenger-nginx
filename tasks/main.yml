@@ -16,7 +16,7 @@
 
 - name: Ensure Passenger APT key is present
   shell:
-    cmd: curl https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key.txt | gpg --dearmor | tee /usr/share/keyrings/phusion-passenger.gpg >/dev/null
+    cmd: curl https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key-2025.txt | gpg --dearmor | tee /usr/share/keyrings/phusion-passenger.gpg >/dev/null
   changed_when: false
 
 - name: Ensure Passenger APT repo is configured
