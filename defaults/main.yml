@@ -6,16 +6,17 @@ passenger_app_env: production
 
 passenger_root: /usr/lib/ruby/vendor_ruby/phusion_passenger/locations.ini
 passenger_ruby: /usr/local/bin/ruby
-passenger_extra_config: ''
+passenger_gpg_key: https://oss-binaries.phusionpassenger.com/auto-software-signing-gpg-key-2025.txt
+passenger_extra_config: ""
 
 nginx_server_name: www.example.com
 nginx_user: "www-data"
 nginx_worker_processes: "auto"
 nginx_worker_connections: "768"
 nginx_keepalive_timeout: "65"
-nginx_extra_config: ''
-nginx_events_extra_config: ''
-nginx_http_extra_config: ''
+nginx_extra_config: ""
+nginx_events_extra_config: ""
+nginx_http_extra_config: ""
 
 nginx_vhost_config: |
   server {
