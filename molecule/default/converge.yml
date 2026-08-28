@@ -3,7 +3,7 @@
   hosts: all
   pre_tasks:
     - name: Ensure ruby is present
-      apt:
+      ansible.builtin.apt:
         name: ruby-full
         update_cache: true
   roles:

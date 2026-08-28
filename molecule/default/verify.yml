@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- name: Verify
+  hosts: all
   roles:
     - role: jobscore.passenger_nginx
       nginx_server_name: www.example.com
@@ -20,21 +21,21 @@
         }
   post_tasks:
     - name: Check for nginx conf file
-      stat:
+      ansible.builtin.stat:
         path: /etc/nginx/nginx.conf
       register: nginx_conf_check
 
     - name: Ensure nginx conf exists
-      fail:
+      ansible.builtin.fail:
         msg: "The nginx conf file does not exist"
-      when: nginx_conf_check.stat.exists == False
+      when: not nginx_conf_check.stat.exists
 
     - name: Check for passenger conf file
-      stat:
+      ansible.builtin.stat:
         path: /etc/nginx/conf.d/mod-http-passenger.conf
       register: passenger_conf_check
 
     - name: Ensure passenger conf exists
-      fail:
+      ansible.builtin.fail:
         msg: "The passenger conf file does not exist"
-      when: passenger_conf_check.stat.exists == False
+      when: not passenger_conf_check.stat.exists
